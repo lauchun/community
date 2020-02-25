@@ -1,1 +1,0 @@
-alter table USER add avater_url varchar(100) NULL;
