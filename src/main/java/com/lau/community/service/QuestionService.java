@@ -1,7 +1,6 @@
 package com.lau.community.service;
 
-import com.lau.community.dto.QuestionDTO;
-import org.springframework.stereotype.Service;
+import com.lau.community.dto.PaginationDTO;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ import java.util.List;
  * @version: 1.0
  */
 public interface QuestionService {
-    List<QuestionDTO> list();
+    PaginationDTO list(Integer page, Integer size);
 }
