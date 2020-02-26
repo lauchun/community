@@ -2,17 +2,15 @@ package com.lau.community.controller;
 
 import com.lau.community.dto.AccessTokenDTO;
 import com.lau.community.dto.GithubUser;
-import com.lau.community.mapper.UserMapper;
 import com.lau.community.model.User;
 import com.lau.community.provider.GithubProvider;
+import com.lau.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -29,7 +27,7 @@ public class AuthorizeController {
     private GithubProvider githubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.client.id}")
     private String clientId;
@@ -54,23 +52,10 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if (githubUser != null && githubUser.getId() != null) {
             String token = UUID.randomUUID().toString();
-            User user = userMapper.findByAccountId(githubUser.getId());
-            if (user == null) {
-                user.setToken(token);
-                user.setName(githubUser.getName());
-                user.setAccountId(githubUser.getId());
-                user.setGmtCreate(System.currentTimeMillis());
-                user.setGmtModified(user.getGmtCreate());
-                user.setAvatarUrl(githubUser.getAvatarUrl());
-                userMapper.insert(user);
-                response.addCookie(new Cookie("token",token));
-                return "redirect:/";
-            } else {
-                user.setToken(token);
-                userMapper.update(user);
-                response.addCookie(new Cookie("token",token));
-                return "redirect:/";
-            }
+            User user = userService.findByAccountId(githubUser.getId());
+            userService.createOrUpdate(user,token,githubUser,response);
+            return "redirect:/";
+
         } else {
             //登录失败，重新登录
             return "redirect:/";
