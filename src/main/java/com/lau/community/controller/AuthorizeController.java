@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -53,12 +55,25 @@ public class AuthorizeController {
         if (githubUser != null && githubUser.getId() != null) {
             String token = UUID.randomUUID().toString();
             User user = userService.findByAccountId(githubUser.getId());
-            userService.createOrUpdate(user,token,githubUser,response);
+            userService.createOrUpdate(user, token, githubUser, response);
             return "redirect:/";
 
         } else {
             //登录失败，重新登录
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
+        request.getSession().removeAttribute("user");
+
+        Cookie token = new Cookie("token",null);
+        token.setMaxAge(0);
+        token.setPath("/");
+        response.addCookie(token);
+
+        return "redirect:/";
     }
 }

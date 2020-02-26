@@ -2,6 +2,7 @@ package com.lau.community.service;
 
 import com.lau.community.dto.PaginationDTO;
 import com.lau.community.dto.QuestionDTO;
+import com.lau.community.model.Question;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface QuestionService {
     PaginationDTO list(Integer id, Integer page, Integer size);
 
     QuestionDTO findById(Integer id);
+
+    void createOrUpdate(Question question);
 }
