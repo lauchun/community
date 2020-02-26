@@ -1,6 +1,7 @@
 package com.lau.community.model;
 
 import lombok.Data;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author ：lauchun
@@ -8,11 +9,12 @@ import lombok.Data;
  * @description ：
  * @version: 1.0
  */
+@Repository
 @Data
 public class User {
     private Integer id;
     private String name;
-    private String accountId;
+    private Integer accountId;
     private String token;
     private Long gmtCreate;
     private Long gmtModified;
