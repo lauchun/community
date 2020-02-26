@@ -3,12 +3,14 @@ package com.lau.community.service.impl;
 import com.lau.community.dto.GithubUser;
 import com.lau.community.mapper.UserMapper;
 import com.lau.community.model.User;
+import com.lau.community.model.UserExample;
 import com.lau.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author ：lauchun
@@ -24,8 +26,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByAccountId(Integer id) {
-        User user = userMapper.findByAccountId(id);
-        return user;
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(id);
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users.size() != 0) {
+            return users.get(0);
+        }
+        return null;
     }
 
     @Override
@@ -41,7 +48,9 @@ public class UserServiceImpl implements UserService {
             response.addCookie(new Cookie("token", token));
         } else {
             user.setToken(token);
-            userMapper.update(user);
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+            userMapper.updateByExampleSelective(user,userExample);
             response.addCookie(new Cookie("token", token));
         }
     }

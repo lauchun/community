@@ -1,7 +1,6 @@
 package com.lau.community.controller;
 
 import com.lau.community.dto.PaginationDTO;
-import com.lau.community.mapper.UserMapper;
 import com.lau.community.model.User;
 import com.lau.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -25,9 +23,6 @@ public class ProfileController {
 
     @Autowired
     private QuestionService questionService;
-
-    @Autowired
-    private User user;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
