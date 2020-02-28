@@ -2,6 +2,8 @@ package com.lau.community.service.impl;
 
 import com.lau.community.dto.PaginationDTO;
 import com.lau.community.dto.QuestionDTO;
+import com.lau.community.exception.CustomizeErrorCode;
+import com.lau.community.exception.CustomizeException;
 import com.lau.community.mapper.QuestionMapper;
 import com.lau.community.mapper.UserMapper;
 import com.lau.community.model.Question;
@@ -122,6 +124,9 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionDTO findById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         UserExample userExample = new UserExample();
@@ -147,7 +152,10 @@ public class QuestionServiceImpl implements QuestionService {
             updateQuestion.setTag(question.getTag());
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion, example);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if (updated != 1) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
