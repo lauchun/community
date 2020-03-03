@@ -4,6 +4,7 @@ import com.lau.community.dto.PaginationDTO;
 import com.lau.community.dto.QuestionDTO;
 import com.lau.community.exception.CustomizeErrorCode;
 import com.lau.community.exception.CustomizeException;
+import com.lau.community.mapper.QuestionExtMapper;
 import com.lau.community.mapper.QuestionMapper;
 import com.lau.community.mapper.UserMapper;
 import com.lau.community.model.Question;
@@ -33,6 +34,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     @Override
     public PaginationDTO list(Integer page, Integer size) {
@@ -157,5 +161,13 @@ public class QuestionServiceImpl implements QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    @Override
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
