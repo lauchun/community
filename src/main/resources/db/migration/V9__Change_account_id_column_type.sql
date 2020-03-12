@@ -1,0 +1,1 @@
+alter table USER alter column ACCOUNT_ID bigint(10);

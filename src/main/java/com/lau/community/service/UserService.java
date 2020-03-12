@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface UserService {
 
-    User findByAccountId(Integer id);
+    User findByAccountId(Long id);
 
     void createOrUpdate(User user, String token, GithubUser githubUser, HttpServletResponse response);
 }

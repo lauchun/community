@@ -13,7 +13,7 @@ import com.lau.community.model.Question;
 public interface QuestionService {
     PaginationDTO list(Integer page, Integer size);
 
-    PaginationDTO list(Integer id, Integer page, Integer size);
+    PaginationDTO list(Long id, Integer page, Integer size);
 
     QuestionDTO findById(Long id);
 

@@ -81,7 +81,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PaginationDTO list(Integer accountId, Integer page, Integer size) {
+    public PaginationDTO list(Long accountId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
         QuestionExample questionExample = new QuestionExample();

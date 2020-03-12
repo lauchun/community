@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User findByAccountId(Integer id) {
+    public User findByAccountId(Long id) {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountIdEqualTo(id);
         List<User> users = userMapper.selectByExample(userExample);
