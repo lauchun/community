@@ -25,7 +25,6 @@ body {
     margin-top: 15px;
 }
 .community-menu {
-    display: block;
     font-size: 13px;
     color: #999;
     margin-bottom: 15px;
@@ -51,6 +50,19 @@ body {
 .question-title {
     margin-top: 25px;
 }
+.question-tag {
+    margin-right: 5px;
+}
+.question-tag-size {
+    font-size: 10px;
+}
+.question-related {
+    line-height: 20px;
+    font-size: 15px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
 .menu {
     margin-top: 5px;
     color: #999;
@@ -59,6 +71,13 @@ body {
     margin-right: 6px;
     font-size: 15px;
     cursor: pointer;
+}
+.menu .comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .comment-icon :hover {
+    color: #499ef3;
 }
 .menu .active {
     color: #499ef3;

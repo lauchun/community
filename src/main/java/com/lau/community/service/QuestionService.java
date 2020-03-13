@@ -4,6 +4,8 @@ import com.lau.community.dto.PaginationDTO;
 import com.lau.community.dto.QuestionDTO;
 import com.lau.community.model.Question;
 
+import java.util.List;
+
 /**
  * @author ：lauchun
  * @date ：Created in 2020-02-25
@@ -20,4 +22,6 @@ public interface QuestionService {
     void createOrUpdate(Question question);
 
     void incView(Long id);
+
+    List<QuestionDTO> selectByRelated(QuestionDTO questionDTO);
 }

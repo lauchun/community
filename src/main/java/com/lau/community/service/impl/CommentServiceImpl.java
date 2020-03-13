@@ -4,10 +4,7 @@ import com.lau.community.controller.CommentDTO;
 import com.lau.community.enums.CommentTypeEnum;
 import com.lau.community.exception.CustomizeErrorCode;
 import com.lau.community.exception.CustomizeException;
-import com.lau.community.mapper.CommentMapper;
-import com.lau.community.mapper.QuestionExtMapper;
-import com.lau.community.mapper.QuestionMapper;
-import com.lau.community.mapper.UserMapper;
+import com.lau.community.mapper.*;
 import com.lau.community.model.*;
 import com.lau.community.service.CommentService;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +39,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private CommentExtMapper commentExtMapper;
+
     @Override
     @Transactional
     public void insert(Comment comment) {
@@ -60,6 +60,8 @@ public class CommentServiceImpl implements CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUNT);
             }
             commentMapper.insert(comment);
+            dbComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(dbComment);
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
